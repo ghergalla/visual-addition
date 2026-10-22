@@ -2,17 +2,7 @@
 
 An interactive demonstration of place value, base ten, and carrying. Digits transform into colored droplets, gather within their columns, and combine in groups of ten before carrying from right to left. The droplets then form the answer's numerals.
 
-## Create the GitHub repository from this download
-
-If the repository has not been created yet:
-
-1. Visit https://github.com/new while signed in as `ghergalla`.
-2. Name the repository `visual-addition`, choose **Private**, and create it without a generated README, license, or gitignore.
-3. On the empty repository page, choose **uploading an existing file**.
-4. Upload the contents of the extracted project folder so that `index.html` and `README.md` are at the repository root. Include the `tests` folder and `THIRD_PARTY_NOTICES.txt`; do not upload only the ZIP file.
-5. Commit the files to `main`, then follow the cloning instructions below.
-
-The included `.gitignore` may be hidden in Finder. Press **Command–Shift–Period** to show hidden files if needed.
+[Open the live demo](https://ghergalla.github.io/visual-addition/).
 
 ## Run it on your Mac
 
@@ -27,7 +17,7 @@ The included `.gitignore` may be hidden in Finder. Press **Command–Shift–Per
    open index.html
    ```
 
-The repository is initially private, so cloning requires a GitHub account with access. Use your existing Git credentials; if you use GitHub CLI, `gh auth login` can set them up. Do not enter your GitHub account password as a Git HTTPS password.
+The public repository can be cloned without signing in. Pushing changes requires your GitHub account to have write access. Use your existing Git credentials; if you use GitHub CLI, `gh auth login` can set them up.
 
 There is no build step, package installation, server, or internet connection required to run the demo. All HTML, CSS, JavaScript, numeral geometry, and visual effects are contained in `index.html`.
 
@@ -35,7 +25,9 @@ You can also use GitHub's **Code → Download ZIP**, unzip it, and open `index.h
 
 ## Use the demo
 
-- Enter two whole numbers from **0 to 9,999**, then select **Begin addition**.
+- Click or tap a digit directly in the addition board to change it. Typing advances to the next place. Use the arrow keys to move between digits.
+- Paste a whole number from **0 to 9,999** into any digit to replace that row, then select **Begin addition**.
+- Select **Edit numbers** to return to editing during or after an animation.
 - Pause, change speed, step backward or forward, replay, or drag the timeline.
 - Press **Space** to play/pause and the **left/right arrows** to step when you are not editing an input.
 - Try **No carrying**, **Chain of carries**, or **A new column**.
@@ -93,4 +85,4 @@ node tests/check-glyph-morph.cjs
 
 These automated checks cover the animation model and glyph geometry. Inspect the demo in a browser when changing styling or rendering.
 
-No deployment or public hosting is configured by this initial repository setup.
+GitHub Pages publishes the repository root from `main`. After pushing an update, wait for the Pages deployment to finish, then refresh the live demo.
