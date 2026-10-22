@@ -5,27 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f3f4f6">
 <meta name="description" content="Watch addition unfold: digits become dots, ten dots become a bundle, and each bundle carries into the next place.">
-<title>Visual Addition — See the sum take shape</title>
+<title>Visual Addition</title>
 <style>
 :root{color-scheme:light;--paper:#f3f4f6;--ink:#262d3d;--muted:#737b8a;--line:#e4e7ec;--purple:#8c60cf;--red:#e35f69;--lime:#9eaf3b;--cyan:#25a9be;--blue:#4f82df}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Avenir Next",Avenir,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit}button{cursor:pointer}button,select,input{-webkit-tap-highlight-color:transparent}button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #bca4e6;outline-offset:4px}button:disabled{cursor:default;opacity:.32}
 .shell{max-width:1120px;margin:0 auto;padding:20px 32px 25px}
 .masthead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.brand{display:flex;align-items:center;gap:11px;font-size:13px;font-weight:750;letter-spacing:.025em}
+.brand{margin:0;display:flex;align-items:center;gap:11px;font-size:13px;font-weight:750;letter-spacing:.025em}
 .logo{display:grid;grid-template-columns:repeat(2,7px);gap:3px;transform:rotate(-8deg)}.logo i{width:7px;height:7px;border-radius:50%;background:var(--cyan)}.logo i:nth-child(2){background:var(--lime)}.logo i:nth-child(3){background:var(--red)}.logo i:nth-child(4){background:var(--purple)}
 .eyebrow{color:var(--muted);font-size:10px;letter-spacing:.16em;font-weight:700;text-transform:uppercase}
-.intro{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:12px}
-h1{font-size:clamp(28px,3.5vw,42px);font-weight:650;line-height:1.14;letter-spacing:-1.7px;margin:0}
-.intro p{font-size:15px;color:var(--muted);margin:0;line-height:1.5}
-.base-note{display:flex;align-items:center;gap:9px;white-space:nowrap;font-size:12px;color:var(--muted);padding-bottom:3px}.base-note svg{width:17px;height:17px}
-.input-card{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:10px}
-.addends{display:flex;align-items:center;gap:16px}
-.number-field{display:flex;flex-direction:column;gap:6px}.number-field label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:650}
-.number-field input{width:154px;height:44px;padding:5px 15px;border:1px solid #dce0e7;background:#fff;border-radius:10px;color:var(--ink);font-size:26px;font-weight:550;letter-spacing:2px;font-variant-numeric:tabular-nums;box-shadow:0 2px 2px #1a284204;transition:border-color .2s}
-.number-field input:hover{border-color:#bfc5d0}.number-field input[aria-invalid=true]{border-color:#c74650;background:#fff6f6}
-.input-plus{margin-top:20px;color:#929aa7;font-size:26px;font-weight:400}
-.examples{flex:1;min-width:0;text-align:center;align-self:end;padding-bottom:2px}.examples .eyebrow{display:block;margin-bottom:9px}
+
+
+
+
+
+
+
+
+
+
+.examples{min-width:0;text-align:center;margin-bottom:12px}.examples .eyebrow{display:block;margin-bottom:6px}
 .example-buttons{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.example{border:1px solid #e0e3e9;background:transparent;border-radius:20px;padding:7px 11px;font-size:11px;color:#626b7b;white-space:nowrap;transition:background .15s,border-color .15s}.example:hover,.example[aria-pressed=true]{background:#fff;border-color:#bfc5d0;color:var(--ink)}
 .error{color:#b03e49;font-size:12px;min-height:0;margin:0 0 12px}.error:empty{display:none}
 .workbench{background:#fff;border:1px solid #e3e6ed;border-radius:24px;overflow:hidden;box-shadow:0 8px 35px #263b5810,0 1px 3px #263b5804}
@@ -67,44 +67,50 @@ details{max-width:530px}summary{cursor:pointer;list-style:none;display:inline-fl
 summary::-webkit-details-marker{display:none}summary:before{content:"+";font-size:13px;color:#9099a8}details[open] summary:before{content:"−"}details p{padding-top:8px}
 .shortcuts{text-align:right;white-space:nowrap}kbd{font:inherit;color:#747e8e;background:#e9ecf1;border-radius:3px;padding:2px 4px}
 @media(min-width:1400px){.shell{padding-top:36px}}
-@media(max-width:850px){.shell{padding:20px 20px}.intro{margin-bottom:12px}.base-note{display:none}.input-card{gap:16px}.examples{max-width:none}.example-buttons{gap:5px}.number-field input{width:136px}.math-chip{display:none}.button{padding:0 10px}.primary{min-width:144px}.button .wide-label{display:none}}
-@media(max-width:620px){.shell{padding:14px 13px}.masthead{margin-bottom:14px}.intro{margin-bottom:12px}h1{font-size:31px;letter-spacing:-1.2px}.intro p{font-size:13px}.input-card{flex-direction:column;align-items:stretch;gap:10px}.addends{gap:13px}.number-field{flex:1}.number-field input{width:100%;height:44px;font-size:25px}.examples{max-width:none;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;align-self:stretch;flex:0 0 auto}.examples .eyebrow{margin:0;font-size:9px}.example-buttons{justify-content:center;gap:5px}.example{font-size:10px;padding:6px 9px}.workbench{border-radius:18px}.board-top{padding:12px 17px 0}.direction{font-size:9px}.phase-label{font-size:9px}.board-scroll{padding:5px 7px 0}#board{min-width:550px}.scroll-hint{display:block}.explanation{padding:12px 16px;gap:11px;min-height:98px;align-items:flex-start}.step-symbol{width:33px;height:33px;flex-basis:33px;border-radius:11px}.copy h2{font-size:15px}.copy p{font-size:11px}.transport{padding:10px 15px 15px}.timeline-row{gap:10px;margin-bottom:10px}.control-row{flex-wrap:wrap;gap:12px}.main-controls{width:100%;gap:5px}.button{padding:0 9px;height:40px;font-size:11px}.primary{flex:1;min-width:130px}.secondary{min-width:40px}.step-text{display:none}.replay{width:40px;padding:0}.replay .replay-text{display:none}.speed{margin-left:auto}.speed select{height:31px}.footer{flex-direction:column;gap:12px;margin-top:15px}.shortcuts{display:none}}
+@media(max-width:850px){.shell{padding:20px 20px}.examples{max-width:none}.example-buttons{gap:5px}.math-chip{display:none}.button{padding:0 10px}.primary{min-width:144px}.button .wide-label{display:none}}
+@media(max-width:620px){.shell{padding:14px 13px}.masthead{margin-bottom:14px}.examples{margin-bottom:10px}.examples .eyebrow{font-size:9px}.example-buttons{justify-content:center;gap:5px}.example{font-size:10px;padding:6px 9px}.workbench{border-radius:18px}.board-top{padding:12px 17px 0}.direction{font-size:9px}.phase-label{font-size:9px}.board-scroll{padding:5px 7px 0}#board{min-width:550px}.scroll-hint{display:block}.explanation{padding:12px 16px;gap:11px;min-height:98px;align-items:flex-start}.step-symbol{width:33px;height:33px;flex-basis:33px;border-radius:11px}.copy h2{font-size:15px}.copy p{font-size:11px}.transport{padding:10px 15px 15px}.timeline-row{gap:10px;margin-bottom:10px}.control-row{flex-wrap:wrap;gap:12px}.main-controls{width:100%;gap:5px}.button{padding:0 9px;height:40px;font-size:11px}.primary{flex:1;min-width:130px}.secondary{min-width:40px}.step-text{display:none}.replay{width:40px;padding:0}.replay .replay-text{display:none}.speed{margin-left:auto}.speed select{height:31px}.footer{flex-direction:column;gap:12px;margin-top:15px}.shortcuts{display:none}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 @media(max-width:620px){#board{min-width:0;max-height:none;aspect-ratio:640 / 514}.scroll-hint{display:none}.column-name{font-size:18px;letter-spacing:.5px}.column-value{font-size:25px}.column-foot{font-size:17px}.zero-hint{font-size:18px}.digit{font-size:84px}.examples{display:block}.examples .eyebrow{margin-bottom:7px}.example-buttons{flex-wrap:nowrap;justify-content:center}.example{flex:0 0 auto;padding:7px 9px;font-size:10px}}
-@media print{.shell{padding:0}.input-card,.transport,.footer,.scroll-hint{display:none}.workbench{box-shadow:none}.board-scroll{overflow:visible}#board{min-width:0}.masthead{margin-bottom:15px}}
+@media print{.shell{padding:0}.examples,.transport,.footer,.scroll-hint,.board-actions{display:none}.workbench{box-shadow:none}.board-scroll{overflow:visible}#board{min-width:0}.masthead{margin-bottom:15px}}
+/* Native digit controls sit directly over the SVG numerals, preserving their exact outlines. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.board-stage{position:relative;min-width:550px}
+.board-actions{display:flex;align-items:center;gap:15px}
+.edit-button{display:inline-flex;align-items:center;gap:5px;border:1px solid #e0e4eb;border-radius:7px;background:#fff;padding:4px 7px;color:#697588;font-size:10px;white-space:nowrap}
+.edit-button svg{width:12px;height:12px}.edit-button:hover{background:#f3f5f8;border-color:#c7ced9}
+.digit-editors{position:absolute;inset:0;pointer-events:none}.digit-editors[hidden]{display:none}
+.digit-edit-row{position:absolute;inset:0;pointer-events:none}
+.digit-input{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;appearance:none;-webkit-appearance:none;box-sizing:border-box;margin:0;padding:0;text-align:center;border:1.5px solid transparent;border-bottom-color:var(--edit-line);border-radius:8px;background:transparent;color:transparent;-webkit-text-fill-color:transparent;caret-color:transparent;cursor:text;font:500 30px/1 sans-serif;transition:border-color .15s,background .15s;touch-action:manipulation}
+.digit-input::selection{background:transparent;color:transparent}.digit-input:hover{border-bottom-color:var(--edit-color);background:var(--edit-wash)}
+.digit-input:focus{outline:none;border-color:var(--edit-color);background:var(--edit-wash);box-shadow:0 0 0 3px var(--edit-wash)}
+.digit-input[aria-invalid=true]{border-color:#c74650}
+@media(max-width:620px){.board-stage{min-width:0}.board-actions{gap:0}.board-actions .direction{display:none}.edit-button{font-size:10px}}
+@media print{.digit-editors{display:none}}
 </style>
 </head>
 <body>
 <main class="shell">
   <header class="masthead">
-    <div class="brand"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Visual addition</div>
+    <h1 class="brand"><span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Visual addition</h1>
     <span class="eyebrow">A place for every digit</span>
   </header>
-  <section class="intro">
-    <div><h1>See the sum take shape.</h1></div>
-  </section>
-  <div class="input-card">
-    <div class="addends">
-      <div class="number-field"><label for="first">First number</label><input id="first" type="text" inputmode="numeric" pattern="[0-9]{1,4}" value="3716" autocomplete="off" spellcheck="false" aria-describedby="input-error" aria-invalid="false"></div>
-      <span class="input-plus" aria-hidden="true">+</span>
-      <div class="number-field"><label for="second">Second number</label><input id="second" type="text" inputmode="numeric" pattern="[0-9]{1,4}" value="2459" autocomplete="off" spellcheck="false" aria-describedby="input-error" aria-invalid="false"></div>
-    </div>
-    <div class="examples"><span class="eyebrow">Try an example</span><div class="example-buttons">
-      <button class="example" data-a="123" data-b="456" aria-pressed="false">No carrying</button>
-      <button class="example" data-a="999" data-b="1" aria-pressed="false">Chain of carries</button>
-      <button class="example" data-a="9999" data-b="9999" aria-pressed="false">A new column</button>
-    </div></div>
-  </div>
+  <div class="examples"><span class="eyebrow">Try an example</span><div class="example-buttons">
+    <button class="example" data-a="123" data-b="456" aria-pressed="false">No carrying</button>
+    <button class="example" data-a="999" data-b="1" aria-pressed="false">Chain of carries</button>
+    <button class="example" data-a="9999" data-b="9999" aria-pressed="false">A new column</button>
+  </div></div>
   <p id="input-error" class="error" role="alert"></p>
   <section class="workbench" aria-label="Interactive addition demonstration">
-    <div class="board-top"><div class="phase-label"><span class="status-dot" id="status-dot"></span><span id="stage-label">Ready to explore</span></div><div class="direction"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 10H4m0 0 4-4m-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Carry from right to left</div></div>
-    <div class="board-scroll" id="board-scroll">
+    <div class="board-top"><div class="phase-label"><span class="status-dot" id="status-dot"></span><span id="stage-label">Ready to explore</span></div><div class="board-actions"><div class="direction"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16 10H4m0 0 4-4m-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Carry from right to left</div><button id="edit-numbers" class="edit-button" type="button"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m12 4 4 4M4 12l8-8a2.8 2.8 0 0 1 4 4l-8 8-5 1z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Edit numbers</button></div></div>
+    <div class="board-scroll" id="board-scroll"><div class="board-stage" id="board-stage">
       <svg id="board" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 514" role="img" aria-labelledby="board-title board-description">
         <title id="board-title">Visual addition</title><desc id="board-description">Two numbers aligned in their place-value columns.</desc>
         <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 8 5 1 9" fill="none" stroke="#a8afbd" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
         <g id="columns"></g><g id="carry-path"></g><g id="symbols"></g><g id="zero-hints"></g><g id="dots"></g><g id="liquid"></g><g id="numbers"></g>
       </svg>
-    </div>
+      <div id="digit-editors" class="digit-editors" aria-label="Edit the numbers"></div>
+      <p id="edit-hint" class="sr-only">Edit one digit in its place-value column. Typing moves right. Paste a number up to four digits to replace the row. Arrow keys move between places. Enter moves to the second number, then begins addition.</p>
+    </div></div>
     <p class="scroll-hint">Swipe the board to explore all the columns ↔</p>
     <div class="explanation">
       <div class="step-symbol" id="step-symbol" aria-hidden="true"></div>
@@ -125,7 +131,7 @@ summary::-webkit-details-marker{display:none}summary:before{content:"+";font-siz
     </div>
   </section>
   <footer class="footer">
-    <details><summary>Why does a carried dot change size and color?</summary><p>Settled droplets stay still while incoming dots follow curved paths into the open positions. Only a group of ten flows together into a circle with <strong>ten times the area</strong> of one dot. As it travels left, that bundle becomes one dot in the next place: <strong>10 ones = 1 ten, 10 tens = 1 hundred</strong>, and so on. The amount stays the same. An empty place becomes a zero.</p><p>Enter any two whole numbers from 0 to 9,999. At normal speed: digits to dots, 2 seconds; combine, 2 seconds; each bundle, 2 seconds; each carry, 3 seconds; dots to digits, 3 seconds. Previous and Next animate one step, then pause.</p></details>
+    <details><summary>Why does a carried dot change size and color?</summary><p>Settled droplets stay still while incoming dots follow curved paths into the open positions. Only a group of ten flows together into a circle with <strong>ten times the area</strong> of one dot. As it travels left, that bundle becomes one dot in the next place: <strong>10 ones = 1 ten, 10 tens = 1 hundred</strong>, and so on. The amount stays the same. An empty place becomes a zero.</p><p>Tap the digits in either number to edit them. You can also paste a whole number from 0 to 9,999 into any digit in its row. Select Edit numbers to return to editing during an animation. At normal speed: digits to dots, 2 seconds; combine, 2 seconds; each bundle, 2 seconds; each carry, 3 seconds; dots to digits, 3 seconds. Previous and Next animate one step, then pause.</p></details>
     <p class="shortcuts"><kbd>Space</kbd> play / pause &nbsp; <kbd>←</kbd> <kbd>→</kbd> step<br>Drag the timeline to revisit any moment.</p>
   </footer>
   <noscript><p>This interactive demonstration needs JavaScript enabled in your browser.</p></noscript>
@@ -688,7 +694,8 @@ License: bitstream-vera
   const M=window.AdditionModel,$=id=>document.getElementById(id);
   const NS='http://www.w3.org/2000/svg';
   const NUMERAL_STROKE=1.3;
-  const inputs=[$('first'),$('second')],play=$('play'),timeline=$('timeline');
+  const values=[3716,2459],editInputs=[[],[]],play=$('play'),timeline=$('timeline');
+  let editorScene=null;
   const layers={columns:$('columns'),numbers:$('numbers'),dots:$('dots'),symbols:$('symbols'),zeros:$('zero-hints'),path:$('carry-path'),liquid:$('liquid')};
   const ICONS={
     play:'<svg viewBox="0 0 20 20" fill="currentColor"><path d="M6 3.8c0-.6.6-.9 1.1-.6l9 6.1c.5.3.5 1 0 1.3l-9 6.1c-.5.3-1.1 0-1.1-.6z"/></svg>',
@@ -835,6 +842,52 @@ License: bitstream-vera
     for(const [key,nodes]of glyphNodes)if(!active.has(key))nodes.group.setAttribute('opacity',0);
   }
 
+
+  function focusDigit(row,p){
+    const input=editInputs[row][p];
+    if(!input||input.disabled)return;
+    input.focus({preventScroll:true});input.select();
+  }
+  function clearEditError(){
+    $('input-error').textContent='';
+    editInputs.flat().forEach(input=>input.setAttribute('aria-invalid','false'));
+  }
+  function editError(input){
+    $('input-error').textContent='Use digits 0–9, or paste a whole number from 0 to 9,999.';
+    input.setAttribute('aria-invalid','true');
+    input.value=String(values[Number(input.dataset.row)]).padStart(4,' ')[3-Number(input.dataset.place)].trim();
+    input.select();
+  }
+  function setDigit(row,p,digit,advance=false){
+    const place=10**p;
+    values[row]+= (digit-M.digit(values[row],p))*place;
+    clearEditError();rebuild();
+    focusDigit(row,advance?Math.max(0,p-1):p);
+  }
+  function updateDigitEditors(scene){
+    editorScene=scene;
+    const editable=!playing&&(elapsed<=.00001||elapsed>=model.total-.00001);
+    $('digit-editors').hidden=!editable;
+    editInputs.forEach((row,r)=>row.forEach((input,p)=>{
+      input.disabled=!editable;
+      input.value=String(values[r]).padStart(4,' ')[3-p].trim();
+    }));
+    if(editable)positionDigitEditors();
+  }
+  function positionDigitEditors(){
+    if(!editorScene||$('digit-editors').hidden)return;
+    const matrix=$('board').getScreenCTM();if(!matrix)return;
+    const bounds=$('board-stage').getBoundingClientRect(),scale=Math.hypot(matrix.a,matrix.b);
+    editInputs.forEach((row,r)=>row.forEach((input,p)=>{
+      const x=center(p,editorScene.layout),y=r===0?M.TOP:M.BASE;
+      input.style.left=(matrix.a*x+matrix.c*y+matrix.e-bounds.left)+'px';
+      input.style.top=(matrix.b*x+matrix.d*y+matrix.f-bounds.top)+'px';
+      input.style.width=Math.max(44,94*scale)+'px';
+      input.style.height=Math.max(44,96*scale)+'px';
+      input.style.fontSize=Math.max(16,79*scale)+'px';
+    }));
+  }
+
   function fmtTime(t){const s=Math.floor(t+.0001);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
   function render(){
     if(!model)return;
@@ -878,18 +931,21 @@ License: bitstream-vera
     drawDots(hidden?s.points.filter(d=>!hidden.has(d.id)):s.points,n);
     drawLiquid(s.liquid,n);
     drawGlyphs(s,n);
+    updateDigitEditors(s);
     const key=s.index+':'+(elapsed>=model.total?'done':'');
     if(lastStage!==key){
       lastStage=key;
-      $('step-title').textContent=phase.title;
-      $('step-description').textContent=phase.description;
+      const title=s.index<0?'Tap a digit to edit.':phase.title;
+      const description=s.index<0?'Type a digit, or paste a whole number (0–9,999). Then press Begin addition.':phase.description;
+      $('step-title').textContent=title;
+      $('step-description').textContent=description;
       $('math-chip').textContent=phase.chip;
       $('stage-label').textContent=s.index<0?'Ready to explore':elapsed>=model.total?'Addition complete':'Step '+(s.index+1)+' of '+model.phases.length;
       const color=s.focus===null?'#8c60cf':M.COLORS[s.focus];
       $('step-symbol').style.color=color;$('step-symbol').style.background=color+'12';
       $('step-symbol').innerHTML=s.kind==='carry'?ICONS.carry:['keep','settle','finish'].includes(s.kind)?ICONS.check:ICONS.dots;
       $('board-title').textContent='Adding '+M.fmt(model.a)+' and '+M.fmt(model.b);
-      $('board-description').textContent=phase.title+' '+phase.description;
+      $('board-description').textContent=title+' '+description;
       timeline.setAttribute('aria-valuetext',phase.title);
     }
     timeline.value=elapsed;
@@ -925,7 +981,8 @@ License: bitstream-vera
   }
   function start(to=null,dir=1){
     if(!valid)return;
-    target=to;direction=dir;playing=true;lastStamp=null;cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);updateControls();
+    if(document.activeElement.classList.contains('digit-input'))document.activeElement.blur();
+    target=to;direction=dir;playing=true;lastStamp=null;cancelAnimationFrame(raf);render();raf=requestAnimationFrame(frame);
   }
   function toggle(){
     if(!valid)return;
@@ -941,11 +998,8 @@ License: bitstream-vera
     if(reduced.matches){elapsed=dest;render();}else start(dest,dir);
   }
   function rebuild(){
-    stop();valid=inputs.every(input=>/^\d{1,4}$/.test(input.value));
-    inputs.forEach(input=>input.setAttribute('aria-invalid',/^\d{1,4}$/.test(input.value)?'false':'true'));
-    $('input-error').textContent=valid?'':'Enter a whole number from 0 to 9,999 in each box.';
-    if(!valid){lastControl='';updateControls();return;}
-    const a=Number(inputs[0].value),b=Number(inputs[1].value);
+    stop();valid=true;clearEditError();
+    const [a,b]=values;
     model=M.build(a,b);elapsed=0;target=null;lastStage='';lastControl='';
     timeline.max=model.total;
     $('ticks').innerHTML=model.boundaries.slice(1,-1).map(t=>'<i style="left:'+(100*t/model.total)+'%"></i>').join('');
@@ -955,12 +1009,58 @@ License: bitstream-vera
     // The ones remain immediately accessible on a narrow screen.
     $('board-scroll').scrollLeft=$('board-scroll').scrollWidth;
   }
-  inputs.forEach(input=>{
-    input.addEventListener('input',rebuild);
-    input.addEventListener('blur',()=>{if(/^\d{1,4}$/.test(input.value))input.value=String(Number(input.value));});
-    input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();toggle();}});
+  for(let row=0;row<2;row++){
+    const group=document.createElement('div');group.className='digit-edit-row';
+    group.setAttribute('role','group');group.setAttribute('aria-label',row===0?'First number':'Second number');
+    $('digit-editors').appendChild(group);
+    for(let p=3;p>=0;p--){
+      const input=document.createElement('input');input.type='text';input.className='digit-input';
+      input.inputMode='numeric';input.maxLength=1;input.autocomplete='off';input.spellcheck=false;
+      input.dataset.row=row;input.dataset.place=p;input.setAttribute('pattern','[0-9]?');
+      input.setAttribute('aria-label',(row===0?'First':'Second')+' number, '+M.NAMES[p]);
+      input.setAttribute('aria-describedby','edit-hint input-error');input.setAttribute('aria-invalid','false');
+      input.setAttribute('enterkeyhint',row===0?'next':'go');
+      input.style.setProperty('--edit-color',M.COLORS[p]);input.style.setProperty('--edit-line',M.COLORS[p]+'55');input.style.setProperty('--edit-wash',M.COLORS[p]+'10');
+      group.appendChild(input);editInputs[row][p]=input;
+      input.addEventListener('focus',()=>input.select());
+      input.addEventListener('click',()=>input.select());
+      input.addEventListener('beforeinput',e=>{
+        if(e.cancelable&&!e.isComposing&&e.inputType==='insertText'&&/^[0-9]$/.test(e.data||'')){
+          e.preventDefault();setDigit(row,p,Number(e.data),true);
+        }
+      });
+      input.addEventListener('input',e=>{
+        if(e.isComposing)return;
+        if(/^[0-9]$/.test(input.value))setDigit(row,p,Number(input.value),true);
+        else if(input.value==='')setDigit(row,p,0);
+        else editError(input);
+      });
+      input.addEventListener('paste',e=>{
+        e.preventDefault();const text=e.clipboardData.getData('text').replace(/[,\s]/g,'');
+        if(!/^[0-9]{1,4}$/.test(text)){editError(input);return;}
+        values[row]=Number(text);rebuild();focusDigit(row,0);
+      });
+      input.addEventListener('keydown',e=>{
+        if(e.ctrlKey||e.metaKey||e.altKey)return;
+        if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+          e.preventDefault();focusDigit(row,M.clamp(p+(e.key==='ArrowLeft'?1:-1),0,3));
+        }else if(e.key==='ArrowUp'||e.key==='ArrowDown'){
+          e.preventDefault();focusDigit(e.key==='ArrowUp'?0:1,p);
+        }else if(e.key==='Backspace'||e.key==='Delete'){
+          e.preventDefault();setDigit(row,p,0);if(e.key==='Backspace')focusDigit(row,Math.min(3,p+1));
+        }else if(e.key==='Enter'){
+          e.preventDefault();if(row===0)focusDigit(1,3);else toggle();
+        }else if(e.key==='Escape'){e.preventDefault();input.blur();}
+      });
+    }
+  }
+  $('edit-numbers').addEventListener('click',()=>{
+    stop();elapsed=0;target=null;lastStage='';clearEditError();render();focusDigit(0,3);
   });
-  document.querySelectorAll('.example').forEach(btn=>btn.addEventListener('click',()=>{inputs[0].value=btn.dataset.a;inputs[1].value=btn.dataset.b;rebuild();}));
+  document.querySelectorAll('.example').forEach(btn=>btn.addEventListener('click',()=>{
+    values[0]=Number(btn.dataset.a);values[1]=Number(btn.dataset.b);rebuild();
+  }));
+  new ResizeObserver(positionDigitEditors).observe($('board'));
   play.addEventListener('click',toggle);
   $('previous').addEventListener('click',()=>step(-1));
   $('next').addEventListener('click',()=>step(1));
