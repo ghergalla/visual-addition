@@ -132,7 +132,7 @@ summary::-webkit-details-marker{display:none}summary:before{content:"+";font-siz
     </div>
   </section>
   <footer class="footer">
-    <details><summary>Why does a carried dot change size and color?</summary><p>We add one place-value column at a time, from right to left. Droplets form three balanced stacks that fill from the bottom up. Settled droplets stay still, and arriving dots have a small settling bounce. Only a group of ten flows together into a circle with <strong>ten times the area</strong> of one dot. As it travels left, that bundle becomes one dot in the next upper group. It then falls into place when we add that column: <strong>10 ones = 1 ten, 10 tens = 1 hundred</strong>, and so on. The amount stays the same. An empty place becomes a zero.</p><p>Tap the digits in either number to edit them. You can also paste a whole number from 0 to 9,999 into any digit in its row. Select Edit numbers to return to editing during an animation. At normal speed: digits to dots, 2 seconds; fill each column, 2 seconds; each bundle, 2 seconds; each carry, 3 seconds; dots to digits, 3 seconds. Previous and Next animate one step, then pause.</p></details>
+    <details><summary>Why does a carried dot change size and color?</summary><p>We add one place-value column at a time, from right to left. Droplets form three balanced stacks that fill from the bottom up. Settled droplets stay still, and arriving dots have a barely noticeable settling bounce. Any remaining upper dots begin falling as soon as the carried droplet clears their column. Only a group of ten flows together into a circle with <strong>ten times the area</strong> of one dot. As it travels left, that bundle becomes one dot in the next upper group. It then falls into place when we add that column: <strong>10 ones = 1 ten, 10 tens = 1 hundred</strong>, and so on. The amount stays the same. An empty place becomes a zero.</p><p>Tap the digits in either number to edit them. You can also paste a whole number from 0 to 9,999 into any digit in its row. Select Edit numbers to return to editing during an animation. At normal speed: digits to dots, 2 seconds; fill each column, 2 seconds; each bundle, 2 seconds; each carry, 3 seconds; dots to digits, 3 seconds. Previous and Next animate one step, then pause.</p></details>
     <p class="shortcuts"><kbd>Space</kbd> play / pause &nbsp; <kbd>←</kbd> <kbd>→</kbd> step<br>Drag the timeline to revisit any moment.</p>
   </footer>
   <noscript><p>This interactive demonstration needs JavaScript enabled in your browser.</p></noscript>
@@ -212,7 +212,7 @@ License: bitstream-vera
   };
   // Three balanced stacks fill from below. Settled dots never move aside.
   // A carry first joins an open slot in the next upper group.
-  const CLEARANCE=30, WAITING=244, CARRY_Y=TOP-2*GAP, FALL_BOUNCE=2.2, routeCache=new Map();
+  const CLEARANCE=30, WAITING=244, CARRY_Y=TOP-2*GAP, FALL_BOUNCE=.8, routeCache=new Map();
   const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
   const motion=t=>{t=clamp(t);return t*t*t*(t*(t*6-15)+10);};
   function distanceToSegment(p,a,b){
@@ -389,6 +389,16 @@ License: bitstream-vera
     const route=plan.routes[id];
     return route?fallingPoint(route.path,(t-route.start)/(route.end-route.start)):{...plan.starts[id]};
   }
+  function carryExitTime(path,width,duration){
+    // Release the source stack when the whole carried droplet has crossed
+    // the column boundary. The two layouts may reach that point at different times.
+    const clear=u=>pathPoint(path,u).x+R*mix(Math.sqrt(10),1,motion(u/.42))<=-width/2;
+    let lo=0;
+    for(let i=0;i<256;i++)if(!clear(i/256))lo=i/256;
+    let hi=Math.min(1,lo+1/256);
+    for(let i=0;i<24;i++){const mid=(lo+hi)/2;if(clear(mid))hi=mid;else lo=mid;}
+    return hi*duration;
+  }
   function carryPlan(state,p,bigId,goal,width){
     const obstacles=Object.values(state).filter(d=>d.id!==bigId).map(d=>({x:(p-d.p)*width+d.dx,y:d.y}));
     const start={x:0,y:BASE},portal={x:-width*.5,y:88},end={x:-width+goal.dx,y:goal.y};
@@ -544,14 +554,13 @@ License: bitstream-vera
       expansion.push(glyphPlan(digit(value,p),Object.values(expanded).filter(d=>d.p===p&&d.id.includes('-'+row+'-')),p,row==='a'?TOP:BASE,'expand-'+row+'-'+p));
     }
     add('expand',2,expanded,expanded,{glyphPlans:expansion,title:'A digit becomes a group of dots.',description:'Each numeral softens into exactly that many droplets, all within its own place-value column.',chip:'One dot · one place value'});
-    function gatherColumn(p,remainder=false){
+    function gatherColumn(p){
       const plan=fallPlan(state,p,ids[p]),next=copy(state),count=ids[p].length;
       for(const [id,goal]of Object.entries(plan.assigned))next[id]={...next[id],dx:goal.q.x,y:goal.q.y};
       const moving=Object.keys(plan.routes).length>0;
-      add('gather',moving?(remainder?1.65:2):.65,state,next,{p,count,fallPlan:plan,ruleFrom:phases.length===1?1:0,
-        title:remainder?'Leave '+count+' '+NAMES[p]+' in this column.':'Add the '+NAMES[p]+'.',
-        description:remainder?'The remaining dots fall into the empty lower field, filling from the bottom up.':
-          moving?'Fill the three small stacks from the bottom up. Settled dots stay still as each arriving dot finds its place.':'The lower dots are already in place. Count this column before moving left.',
+      add('gather',moving?2:.65,state,next,{p,count,fallPlan:plan,ruleFrom:phases.length===1?1:0,
+        title:'Add the '+NAMES[p]+'.',
+        description:moving?'Fill the three small stacks from the bottom up. Settled dots stay still as each arriving dot finds its place.':'The lower dots are already in place. Count this column before moving left.',
         chip:count+' '+(count===1?SINGULAR[p]:NAMES[p])});
       state=next;ids[p]=plan.order;gathered=copy(state);
     }
@@ -577,12 +586,18 @@ License: bitstream-vera
         ids[p+1].push(bigId);
         const nextLayout=Math.max(layout,p+2);
         const carryPaths=[carryPlan(state,p,bigId,goal,564/nextLayout),carryPlan(state,p,bigId,goal,832/nextLayout)];
-        add('carry',3,state,carried,{p,count,bigId,carryPaths,layoutTo:nextLayout,
+        const remainder=rest.length?fallPlan(state,p,rest):null,flightDuration=3,fallDuration=1.65;
+        const fallStarts=carryPaths.map((path,i)=>carryExitTime(path,(i===0?564:832)/nextLayout,flightDuration));
+        if(remainder){
+          for(const [id,goal]of Object.entries(remainder.assigned))carried[id]={...carried[id],dx:goal.q.x,y:goal.q.y};
+          ids[p]=remainder.order;
+        }
+        const duration=remainder?Math.max(flightDuration,...fallStarts.map(t=>t+fallDuration)):flightDuration;
+        add('carry',duration,state,carried,{p,count,bigId,carryPaths,flightDuration,fallDuration,fallStarts,fallPlan:remainder,layoutTo:nextLayout,
           title:'Carry one to the '+NAMES[p+1]+'.',
-          description:'The bundle becomes one dot in the next upper group. It will fall into that column when we add it. Its value stays the same.',
+          description:rest.length?'The bundle becomes one dot in the next upper group. As it clears this column, the remaining dots begin to fall.':'The bundle becomes one dot in the next upper group. It will fall into that column when we add it. Its value stays the same.',
           chip:'10 '+NAMES[p]+' = 1 '+SINGULAR[p+1]});
         state=carried;
-        if(rest.length)gatherColumn(p,true);
       }else{
         add('keep',.85,state,state,{p,count,
           title:'The '+NAMES[p]+' are ready.',
@@ -615,7 +630,10 @@ License: bitstream-vera
     const s={index,phase:f,u,layout:mix(f.layoutFrom,f.layoutTo,ease(u/.32)),points:[],original:0,answer:0,answerY:BASE,rule:0,equals:0,zero:1,focus:null,route:null};
     if(time<=0){return {...s,layout:4,original:1,rule:1,zero:0,phase:model.initial,index:-1,kind:'initial'};}
     s.kind=f.kind;
-    if(f.kind==='carry'&&f.layoutTo>f.layoutFrom)s.layout=mix(f.layoutFrom,f.layoutTo,ease((u-.52)/.28));
+    if(f.kind==='carry'){
+      s.u=clamp(u*f.duration/f.flightDuration);
+      if(f.layoutTo>f.layoutFrom)s.layout=mix(f.layoutFrom,f.layoutTo,ease((s.u-.52)/.28));
+    }
     if(f.kind==='expand'){
       s.original=0;s.rule=1;s.zero=ease((u-.6)/.4);
       const spread=motion((u-.16)/.76),round=motion((u-.10)/.48);
@@ -654,11 +672,16 @@ License: bitstream-vera
       }
     }else if(f.kind==='carry'){
       s.focus=f.p;s.route=f.p;
-      s.points=Object.values(f.to).filter(d=>d.id!==f.bigId).map(d=>({...d}));
+      const travel=s.u,fallProgress=(u*f.duration-f.fallStarts[narrow?0:1])/f.fallDuration;
+      s.points=Object.values(f.to).filter(d=>d.id!==f.bigId).map(d=>{
+        if(!f.fallPlan?.starts[d.id])return {...d};
+        const q=plannedPoint(f.fallPlan,d.id,fallProgress);
+        return {...d,dx:q.x,y:q.y};
+      });
       const old=f.from[f.bigId],dest=f.to[f.bigId],w=(narrow?564:832)/f.layoutTo;
-      const q=pathPoint(f.carryPaths[narrow?0:1],u),offset=dest.dx*motion(u);
-      s.points.push({...dest,p:f.p-(q.x-offset)/w,dx:offset,y:q.y,r:R*mix(Math.sqrt(10),1,motion(u/.42)),
-        color:colorMix(old.color,dest.color,motion(u/.8)),tag:1-motion(u/.3)});
+      const q=pathPoint(f.carryPaths[narrow?0:1],travel),offset=dest.dx*motion(travel);
+      s.points.push({...dest,p:f.p-(q.x-offset)/w,dx:offset,y:q.y,r:R*mix(Math.sqrt(10),1,motion(travel/.42)),
+        color:colorMix(old.color,dest.color,motion(travel/.8)),tag:1-motion(travel/.3)});
     }else if(f.kind==='condense'){
       s.zero=1-ease(u/.3);
       const spread=1-motion((u-.03)/.67),round=1-motion((u-.22)/.56);
